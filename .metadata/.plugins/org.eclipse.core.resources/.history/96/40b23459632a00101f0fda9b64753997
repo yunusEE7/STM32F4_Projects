@@ -1,0 +1,42 @@
+/*
+ * stm32f407xx_usb_driver.h
+ *
+ *  Created on: May 5, 2025
+ *      Author: yunus
+ */
+
+#ifndef STM32F407XX_USB_DRIVER_H_
+#define STM32F407XX_USB_DRIVER_H_
+
+/* AHB 1 */
+#define USB_OTG_HS_BASEADDR					0x40040000U
+/* AHB 2 */
+#define USB_OTG_FS_BASEADDR					0x50000000U
+
+
+/* USB OTG_FS control and status registers
+
+/* 1. Core global registers */
+#define CORE_GLOBAL_CSR_BASEADDR			( ( USB_OTG_FS_BASEADDR ) + ( 0x0000U ) )
+
+/* 2. Host-mode registers */
+#define HOST_MODE_CSR_BASEADDR				( ( USB_OTG_FS_BASEADDR ) + ( 0x0400U ) )
+
+/* 3. Device global registers */
+#define DEVICE_MODE_CSR_BASEADDR			( ( USB_OTG_FS_BASEADDR ) + ( 0x0800U ) )
+
+/* 4. Power and clock gating */
+#define PCG_CSR_BASEADDR					( ( USB_OTG_FS_BASEADDR ) + ( 0x0E00U ) )
+
+/* Data FIFO (DFIFO) access registers */
+
+#define DFIFO_ENDPOINT0_CHANNEL0			( ( USB_OTG_FS_BASEADDR ) + ( 0x1000U ) )
+#define DFIFO_ENDPOINT1_CHANNEL1			( ( USB_OTG_FS_BASEADDR ) + ( 0x2000U ) )
+#define DFIFO_ENDPOINT2_CHANNEL2			( ( USB_OTG_FS_BASEADDR ) + ( 0x3000U ) )
+#define DFIFO_ENDPOINT3_CHANNEL3			( ( USB_OTG_FS_BASEADDR ) + ( 0x4000U ) )
+#define DFIFO_CHANNEL_4						( ( USB_OTG_FS_BASEADDR ) + ( 0x5000U ) )
+#define DFIFO_CHANNEL_5						( ( USB_OTG_FS_BASEADDR ) + ( 0x6000U ) )
+#define DFIFO_CHANNEL_6						( ( USB_OTG_FS_BASEADDR ) + ( 0x7000U ) )
+#define DFIFO_CHANNEL_7						( ( USB_OTG_FS_BASEADDR ) + ( 0x8000U ) )
+
+#endif /* STM32F407XX_USB_DRIVER_H_ */

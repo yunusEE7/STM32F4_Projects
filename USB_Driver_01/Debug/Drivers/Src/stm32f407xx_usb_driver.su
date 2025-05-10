@@ -1,0 +1,2 @@
+../Drivers/Src/stm32f407xx_usb_driver.c:13:6:USBD_PeriClockControl	16	static
+../Drivers/Src/stm32f407xx_usb_driver.c:78:6:USBD_Init	16	static

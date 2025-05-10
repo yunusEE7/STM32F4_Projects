@@ -1,0 +1,14 @@
+/*
+ * usbd_desc.c
+ *
+ *  Created on: May 9, 2025
+ *      Author: yunus
+ */
+
+#include "usbd_desc.h"
+
+
+USBH_DevDescTypeDef USB_DD;
+
+
+USB_DD

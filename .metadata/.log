@@ -1,0 +1,81 @@
+!SESSION 2025-05-01 22:58:38.315 -----------------------------------------------
+eclipse.buildId=Version 1.17.0
+java.version=21.0.3
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_IN
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -data D:\Embedded-C\STM32F4_Projects
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2025-05-01 22:58:43.805
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2025-05-01 22:58:43.805
+!MESSAGE Log4j2 initialized with config file D:\Embedded-C\STM32F4_Projects\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2025-05-01 22:58:46.803
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2025-05-01 23:03:05.920
+!MESSAGE Indexed 'USB_Driver_01' (3 sources, 53 headers) in 0.984 sec: 1,950 declarations; 2,836 references; 0 unresolved inclusions; 2 syntax errors; 2 unresolved names (0.042%)
+!SESSION 2025-05-05 14:26:58.195 -----------------------------------------------
+eclipse.buildId=Version 1.17.0
+java.version=21.0.3
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_IN
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2025-05-05 14:27:03.816
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2025-05-05 14:27:03.816
+!MESSAGE Log4j2 initialized with config file D:\Embedded-C\STM32F4_Projects\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2025-05-05 14:27:11.962
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2025-05-08 16:25:52.888 -----------------------------------------------
+eclipse.buildId=Version 1.17.0
+java.version=21.0.3
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_IN
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2025-05-08 16:25:59.323
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2025-05-08 16:25:59.325
+!MESSAGE Log4j2 initialized with config file D:\Embedded-C\STM32F4_Projects\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2025-05-08 16:26:08.847
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2025-05-08 16:41:44.874 -----------------------------------------------
+eclipse.buildId=Version 1.17.0
+java.version=21.0.3
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_IN
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2025-05-08 16:41:49.517
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2025-05-08 16:41:49.517
+!MESSAGE Log4j2 initialized with config file D:\Embedded-C\STM32F4_Projects\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2025-05-08 16:41:55.488
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2025-05-08 16:44:09.861
+!MESSAGE Indexed 'USB_Driver_01' (10 sources, 62 headers) in 0.508 sec: 2,857 declarations; 6,783 references; 0 unresolved inclusions; 2 syntax errors; 2 unresolved names (0.021%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2025-05-09 01:16:20.210
+!MESSAGE Indexed 'USB_Driver_01' (10 sources, 62 headers) in 0.28 sec: 2,866 declarations; 6,943 references; 0 unresolved inclusions; 1 syntax errors; 2 unresolved names (0.02%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2025-05-09 01:16:54.509
+!MESSAGE Indexed 'USB_Driver_01' (10 sources, 62 headers) in 0.208 sec: 2,866 declarations; 6,943 references; 0 unresolved inclusions; 1 syntax errors; 2 unresolved names (0.02%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2025-05-09 01:17:01.799
+!MESSAGE Indexed 'USB_Driver_01' (10 sources, 62 headers) in 0.214 sec: 2,866 declarations; 6,943 references; 0 unresolved inclusions; 1 syntax errors; 2 unresolved names (0.02%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2025-05-09 01:45:03.851
+!MESSAGE Indexed 'USB_Driver_01' (11 sources, 63 headers) in 0.2 sec: 2,868 declarations; 6,946 references; 0 unresolved inclusions; 4 syntax errors; 2 unresolved names (0.02%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2025-05-09 01:46:33.773
+!MESSAGE Indexed 'USB_Driver_01' (11 sources, 63 headers) in 0.218 sec: 2,868 declarations; 6,946 references; 0 unresolved inclusions; 4 syntax errors; 2 unresolved names (0.02%)

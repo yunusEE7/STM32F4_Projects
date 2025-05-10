@@ -1,0 +1,101 @@
+/*
+ * usbd_desc.h
+ *
+ *  Created on: May 9, 2025
+ *      Author: yunus
+ */
+
+#ifndef USB_DEVICE_LIBRARY_CORE_INC_USBD_DESC_H_
+#define USB_DEVICE_LIBRARY_CORE_INC_USBD_DESC_H_
+
+#include <stdint.h>
+
+/* Descriptor Header */
+typedef  struct {
+uint8_t  bLength; // this field includes the length of the descriptor
+uint8_t  bDescriptorType; // this field includes the descriptor type that can take one of the following defined values depending on the class:
+/*  USB_DESC_TYPE_DEVICE \
+ *  USB_DESC_TYPE_CONFIGURATION \
+ *  USB_DESC_TYPE_STRING \
+ *  USB_DESC_TYPE_INTERFACE \
+ *  USB_DESC_TYPE_ENDPOINT \
+ *  USB_DESC_TYPE_DEVICE_QUALIFIER \
+ *  USB_DESC_TYPE_OTHER_SPEED_CONFIGURATION \
+ *  USB_DESC_TYPE_INTERFACE_POWER \
+ *  USB_DESC_TYPE_HID \
+ *  USB_DESC_TYPE_HID_REPORT
+ */
+} USBH_DescHeader_t;
+
+
+/* Device Descriptor */
+typedef struct {
+uint8_t   bLength; // this field includes the length of the descriptor
+uint8_t   bDescriptorType; // this field includes the descriptor type that can take one of the following defined values depending on the class:
+/*
+ *  USB_DESC_TYPE_DEVICE \
+ *  USB_DESC_TYPE_CONFIGURATION \
+ *  USB_DESC_TYPE_STRING \
+ *  USB_DESC_TYPE_INTERFACE \
+ *  USB_DESC_TYPE_ENDPOINT \
+ *   USB_DESC_TYPE_DEVICE_QUALIFIER \
+ *  USB_DESC_TYPE_OTHER_SPEED_CONFIGURATION \
+ *  USB_DESC_TYPE_INTERFACE_POWER \
+ *  USB_DESC_TYPE_HID \
+ *  USB_DESC_TYPE_HID_REPORT
+ */
+uint16_t  bcdUSB; // includes the USB Specification Number which device complies to, for version 2.0 this field includes the value of 0x0200.
+uint8_t   bDeviceClass; // includes the connected device class code that is defined by the USB-IF
+uint8_t   bDeviceSubClass; // includes the connected device subclass code that is defined by the USB-IF.
+uint8_t   bDeviceProtocol; // includes the protocol code that is defined by the USB-IF and that depends on the class and subclass code. This code identifies the protocols that the device uses according the the device's class specification.
+uint8_t   bMaxPacketSize; // includes the maximum packet size for endpoint zero that can be 8 or 16 or 32 or 64.
+uint16_t  idVendor; // includes the Vendor ID that is assigned by the USB-IF
+uint16_t  idProduct; // includes the Product ID that is assigned by Manufacturer ( STMicroelectronics )
+uint16_t  bcdDevice; // includes the Device Release Number,  for version 2.0 this field includes the value of 0x0200
+uint8_t   iManufacturer; // includes the Index of Manufacturer String Descriptor
+uint8_t   iProduct; //  includes the Index of Product String Descriptor
+uint8_t   iSerialNumber; // includes the Index of Serial Number String Descriptor
+uint8_t   bNumConfigurations; //  includes the Number of Possible Configurations
+}USBH_DevDescTypeDef;
+
+
+/* Configuration Descriptor */
+typedef struct {
+uint8_t   bLength; // this field includes the length of the descriptor.
+uint8_t   bDescriptorType; // this field includes the descriptor type.
+uint16_t  wTotalLength; // contains the Total Length of Returned Data
+uint8_t   bNumInterfaces; // contains the Number of Interfaces supported by this configuration
+uint8_t   bConfigurationValue; // contains the Value to use as an argument to select this configuration
+uint8_t   iConfiguration; // contains the Index of String Descriptor Describing this configuration
+uint8_t   bmAttributes; // Contains information about power source (Bus Powered or Self Powered) and Remote wakeup support by the device.
+uint8_t   bMaxPower; // includes the value of Maximum Power Consumption
+}USBH_CfgDescTypeDef;
+
+
+/* Interface Descriptor */
+typedef struct {
+uint8_t bLength; // this field includes the length of the descriptor.
+uint8_t bDescriptorType; // this field includes the descriptor type.
+uint8_t bInterfaceNumber; // includes Number of the interface described by this descriptor. It identifies the index in the array of concurrent interfaces supported by this configuration.
+uint8_t bAlternateSetting; // includes the value that is used to select alternative setting
+uint8_t bNumEndpoints; // includes the Number of Endpoints used for this interface
+uint8_t bInterfaceClass; // includes the Class Code that is assigned by USB-IF
+uint8_t bInterfaceSubClass; // includes the Subclass Code that is assigned by USB-IF
+uint8_t bInterfaceProtocol; // includes the  Protocol Code
+uint8_t iInterface; // includes the Index of String Descriptor Describing this interface
+}USBH_InterfaceDescTypeDef;
+
+
+/* Endpoint Descriptor */
+typedef struct {
+uint8_t   bLength; // this field includes the length of the descriptor.
+uint8_t   bDescriptorType; // this field includes the descriptor type.
+uint8_t   bEndpointAddress; // includes what endpoint address this descriptor is describing. Every endpoint is characterized by a number and direction (IN or OUT).
+uint8_t   bmAttributes; // includes the transfer type.
+uint16_t  wMaxPacketSize; // includes the Maximum Packet Size this endpoint is capable of sending or receiving.
+uint8_t   bInterval; // includes the polling interval of certain transfers.
+}USBH_EpDescTypeDef;
+
+
+
+#endif /* USB_DEVICE_LIBRARY_CORE_INC_USBD_DESC_H_ */

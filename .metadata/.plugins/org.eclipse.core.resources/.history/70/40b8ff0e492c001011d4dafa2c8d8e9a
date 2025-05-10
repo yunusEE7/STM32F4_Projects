@@ -1,0 +1,26 @@
+/*
+ * usbd_desc.c
+ *
+ *  Created on: May 9, 2025
+ *      Author: yunus
+ */
+#include "usbd_desc.h"
+
+
+USBH_DevDescTypeDef USB_DD;
+
+
+USB_DD.
+USB_DD.bDescriptorType = 1;
+USB_DD.bcdUSB =
+USB_DD.bDeviceClass =
+USB_DD.bDeviceSubClass =
+USB_DD.bDeviceProtocol =
+USB_DD.bMaxPacketSize =
+USB_DD.idVendor =
+USB_DD.idProduct =
+USB_DD.bcdDevice =
+USB_DD.iManufacturer =
+USB_DD.iProduct =
+USB_DD.iSerialNumber =
+USB_DD.bNumConfigurations =

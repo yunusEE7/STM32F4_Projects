@@ -1,0 +1,34 @@
+/*
+ * stm32f407xx_usb_driver.c
+ *
+ *  Created on: May 5, 2025
+ *      Author: yunus
+ */
+
+
+#include "stm32f407xx_usb_driver.h"
+
+void USBD_Init(void) {
+
+	//GINTSTS_CMOD
+	if(!(USB_OTG_FS_GCSR->GINTSTS & ( 1 << USB_GINTSTS_CMOD ))) {
+		//device mode
+	}
+
+	//Initialize GAHBCFG register
+	uint32_t temp_reg = 0;
+
+	temp_reg |= ( 1 << USB_GAHBCFG_GINTMSK );
+	temp_reg &= ~( 1 << USB_GAHBCFG_TXFELVL);
+
+	USB_OTG_FS_GCSR->GAHBCFG = temp_reg;
+
+
+	temp_reg = 0;
+	//Initialize GUSBCFG register
+
+
+
+
+
+}

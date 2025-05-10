@@ -1,0 +1,13 @@
+/*
+ * usbd_desc.h
+ *
+ *  Created on: May 9, 2025
+ *      Author: yunus
+ */
+
+#ifndef USB_DEVICE_LIBRARY_CORE_INC_USBD_DESC_H_
+#define USB_DEVICE_LIBRARY_CORE_INC_USBD_DESC_H_
+
+
+
+#endif /* USB_DEVICE_LIBRARY_CORE_INC_USBD_DESC_H_ */

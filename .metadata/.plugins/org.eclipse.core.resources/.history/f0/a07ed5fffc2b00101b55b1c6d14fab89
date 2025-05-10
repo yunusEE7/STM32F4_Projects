@@ -1,0 +1,16 @@
+/*
+ * stm32f407xx_usb_driver.c
+ *
+ *  Created on: May 5, 2025
+ *      Author: yunus
+ */
+
+
+#include "stm32f407xx_usb_driver.h"
+
+void USBD_Init(void) {
+
+	USB_OTG_FS
+
+
+}

@@ -1,0 +1,598 @@
+
+USB_Driver_01.elf:     file format elf32-littlearm
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .isr_vector   00000188  08000000  08000000  00001000  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  1 .text         000002b8  08000188  08000188  00001188  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .rodata       00000000  08000440  08000448  00001448  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  3 .ARM.extab    00000000  08000440  08000440  00001448  2**0
+                  CONTENTS
+  4 .ARM          00000000  08000440  08000440  00001448  2**0
+                  CONTENTS
+  5 .preinit_array 00000000  08000440  08000448  00001448  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  6 .init_array   00000004  08000440  08000440  00001440  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  7 .fini_array   00000004  08000444  08000444  00001444  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  8 .data         00000000  20000000  20000000  00001448  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  9 .ccmram       00000000  10000000  10000000  00001448  2**0
+                  CONTENTS
+ 10 .bss          0000001c  20000000  20000000  00002000  2**2
+                  ALLOC
+ 11 ._user_heap_stack 00000604  2000001c  2000001c  00002000  2**0
+                  ALLOC
+ 12 .ARM.attributes 0000002a  00000000  00000000  00001448  2**0
+                  CONTENTS, READONLY
+ 13 .debug_info   000007f0  00000000  00000000  00001472  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 14 .debug_abbrev 0000018a  00000000  00000000  00001c62  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 15 .debug_aranges 00000078  00000000  00000000  00001df0  2**3
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 16 .debug_rnglists 0000004d  00000000  00000000  00001e68  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 17 .debug_macro  00000398  00000000  00000000  00001eb5  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 18 .debug_line   00000b86  00000000  00000000  0000224d  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 19 .debug_str    00008606  00000000  00000000  00002dd3  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 20 .comment      00000043  00000000  00000000  0000b3d9  2**0
+                  CONTENTS, READONLY
+ 21 .debug_frame  000000d8  00000000  00000000  0000b41c  2**2
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 22 .debug_line_str 00000056  00000000  00000000  0000b4f4  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+
+Disassembly of section .text:
+
+08000188 <__do_global_dtors_aux>:
+ 8000188:	b510      	push	{r4, lr}
+ 800018a:	4c05      	ldr	r4, [pc, #20]	@ (80001a0 <__do_global_dtors_aux+0x18>)
+ 800018c:	7823      	ldrb	r3, [r4, #0]
+ 800018e:	b933      	cbnz	r3, 800019e <__do_global_dtors_aux+0x16>
+ 8000190:	4b04      	ldr	r3, [pc, #16]	@ (80001a4 <__do_global_dtors_aux+0x1c>)
+ 8000192:	b113      	cbz	r3, 800019a <__do_global_dtors_aux+0x12>
+ 8000194:	4804      	ldr	r0, [pc, #16]	@ (80001a8 <__do_global_dtors_aux+0x20>)
+ 8000196:	f3af 8000 	nop.w
+ 800019a:	2301      	movs	r3, #1
+ 800019c:	7023      	strb	r3, [r4, #0]
+ 800019e:	bd10      	pop	{r4, pc}
+ 80001a0:	20000000 	.word	0x20000000
+ 80001a4:	00000000 	.word	0x00000000
+ 80001a8:	08000428 	.word	0x08000428
+
+080001ac <frame_dummy>:
+ 80001ac:	b508      	push	{r3, lr}
+ 80001ae:	4b03      	ldr	r3, [pc, #12]	@ (80001bc <frame_dummy+0x10>)
+ 80001b0:	b11b      	cbz	r3, 80001ba <frame_dummy+0xe>
+ 80001b2:	4903      	ldr	r1, [pc, #12]	@ (80001c0 <frame_dummy+0x14>)
+ 80001b4:	4803      	ldr	r0, [pc, #12]	@ (80001c4 <frame_dummy+0x18>)
+ 80001b6:	f3af 8000 	nop.w
+ 80001ba:	bd08      	pop	{r3, pc}
+ 80001bc:	00000000 	.word	0x00000000
+ 80001c0:	20000004 	.word	0x20000004
+ 80001c4:	08000428 	.word	0x08000428
+
+080001c8 <USBD_PeriClockControl>:
+
+
+
+#include "stm32f407xx_usb_driver.h"
+
+void USBD_PeriClockControl(void) {
+ 80001c8:	b480      	push	{r7}
+ 80001ca:	b083      	sub	sp, #12
+ 80001cc:	af00      	add	r7, sp, #0
+
+	uint32_t temp_reg;
+
+	temp_reg = 0x00000083;	//reset value of RCC_CR
+ 80001ce:	2383      	movs	r3, #131	@ 0x83
+ 80001d0:	607b      	str	r3, [r7, #4]
+	//1. Enable HSE
+	temp_reg |= ( 1 << RCC_CR_HSEON);
+ 80001d2:	687b      	ldr	r3, [r7, #4]
+ 80001d4:	f443 3380 	orr.w	r3, r3, #65536	@ 0x10000
+ 80001d8:	607b      	str	r3, [r7, #4]
+
+	RCC->CR = temp_reg;
+ 80001da:	4a30      	ldr	r2, [pc, #192]	@ (800029c <USBD_PeriClockControl+0xd4>)
+ 80001dc:	687b      	ldr	r3, [r7, #4]
+ 80001de:	6013      	str	r3, [r2, #0]
+	while(!(RCC->CR & ( 1 << RCC_CR_HSERDY)));	//wait till HSE is ready
+ 80001e0:	bf00      	nop
+ 80001e2:	4b2e      	ldr	r3, [pc, #184]	@ (800029c <USBD_PeriClockControl+0xd4>)
+ 80001e4:	681b      	ldr	r3, [r3, #0]
+ 80001e6:	f403 3300 	and.w	r3, r3, #131072	@ 0x20000
+ 80001ea:	2b00      	cmp	r3, #0
+ 80001ec:	d0f9      	beq.n	80001e2 <USBD_PeriClockControl+0x1a>
+
+
+	temp_reg = 0;
+ 80001ee:	2300      	movs	r3, #0
+ 80001f0:	607b      	str	r3, [r7, #4]
+	//2. Configure HSE as Main PLL Source
+	temp_reg |= ( 1 << RCC_PLLCFGR_PLLSRC );
+ 80001f2:	687b      	ldr	r3, [r7, #4]
+ 80001f4:	f443 0380 	orr.w	r3, r3, #4194304	@ 0x400000
+ 80001f8:	607b      	str	r3, [r7, #4]
+
+	//3. Configure PLL output frequency
+	//PLLM
+	temp_reg |= ( 8 << RCC_PLLCFGR_PLLM );
+ 80001fa:	687b      	ldr	r3, [r7, #4]
+ 80001fc:	f443 7380 	orr.w	r3, r3, #256	@ 0x100
+ 8000200:	607b      	str	r3, [r7, #4]
+
+	//PLLN
+	temp_reg |= ( 192 << RCC_PLLCFGR_PLLN );
+ 8000202:	687b      	ldr	r3, [r7, #4]
+ 8000204:	f443 1340 	orr.w	r3, r3, #3145728	@ 0x300000
+ 8000208:	607b      	str	r3, [r7, #4]
+
+	//PLLP
+	temp_reg |= ( 3 << RCC_PLLCFGR_PLLP );
+ 800020a:	687b      	ldr	r3, [r7, #4]
+ 800020c:	f443 23c0 	orr.w	r3, r3, #393216	@ 0x60000
+ 8000210:	607b      	str	r3, [r7, #4]
+
+	//PLLQ
+	temp_reg |= ( 4 << RCC_PLLCFGR_PLLQ );
+ 8000212:	687b      	ldr	r3, [r7, #4]
+ 8000214:	f043 5300 	orr.w	r3, r3, #536870912	@ 0x20000000
+ 8000218:	607b      	str	r3, [r7, #4]
+
+	RCC->PLLCFGR = temp_reg;
+ 800021a:	4a20      	ldr	r2, [pc, #128]	@ (800029c <USBD_PeriClockControl+0xd4>)
+ 800021c:	687b      	ldr	r3, [r7, #4]
+ 800021e:	6053      	str	r3, [r2, #4]
+
+
+	temp_reg = 0;
+ 8000220:	2300      	movs	r3, #0
+ 8000222:	607b      	str	r3, [r7, #4]
+	//4. Configure AHB and APB bus clock pre-scalars
+	//AHB Prescalar : SYS_CLK/4 = 16 MHz
+	temp_reg |= ( 9 << RCC_CFGR_HPRE );
+ 8000224:	687b      	ldr	r3, [r7, #4]
+ 8000226:	f443 6390 	orr.w	r3, r3, #1152	@ 0x480
+ 800022a:	607b      	str	r3, [r7, #4]
+
+	//APB1 and APB2 Prescalar : AHB_CLK/1 = 16 MHz
+	temp_reg &= ~( 1 << RCC_CFGR_PPRE1 );
+ 800022c:	687b      	ldr	r3, [r7, #4]
+ 800022e:	f423 5380 	bic.w	r3, r3, #4096	@ 0x1000
+ 8000232:	607b      	str	r3, [r7, #4]
+	temp_reg &= ~( 1 << RCC_CFGR_PPRE2 );
+ 8000234:	687b      	ldr	r3, [r7, #4]
+ 8000236:	f423 4300 	bic.w	r3, r3, #32768	@ 0x8000
+ 800023a:	607b      	str	r3, [r7, #4]
+
+	//Select PLL as System Clock
+	temp_reg |= ( 2 << RCC_CFGR_SW);
+ 800023c:	687b      	ldr	r3, [r7, #4]
+ 800023e:	f043 0304 	orr.w	r3, r3, #4
+ 8000242:	607b      	str	r3, [r7, #4]
+
+	RCC->CFGR = temp_reg;
+ 8000244:	4a15      	ldr	r2, [pc, #84]	@ (800029c <USBD_PeriClockControl+0xd4>)
+ 8000246:	687b      	ldr	r3, [r7, #4]
+ 8000248:	6093      	str	r3, [r2, #8]
+
+
+	temp_reg = 0;
+ 800024a:	2300      	movs	r3, #0
+ 800024c:	607b      	str	r3, [r7, #4]
+	//5. Enable PLL
+	temp_reg |= ( 1 << RCC_CR_PLLON );
+ 800024e:	687b      	ldr	r3, [r7, #4]
+ 8000250:	f043 7380 	orr.w	r3, r3, #16777216	@ 0x1000000
+ 8000254:	607b      	str	r3, [r7, #4]
+
+	RCC->CR |= temp_reg;
+ 8000256:	4b11      	ldr	r3, [pc, #68]	@ (800029c <USBD_PeriClockControl+0xd4>)
+ 8000258:	681a      	ldr	r2, [r3, #0]
+ 800025a:	4910      	ldr	r1, [pc, #64]	@ (800029c <USBD_PeriClockControl+0xd4>)
+ 800025c:	687b      	ldr	r3, [r7, #4]
+ 800025e:	4313      	orrs	r3, r2
+ 8000260:	600b      	str	r3, [r1, #0]
+	while(!( RCC->CR & ( 1 << RCC_CR_PLLRDY)));
+ 8000262:	bf00      	nop
+ 8000264:	4b0d      	ldr	r3, [pc, #52]	@ (800029c <USBD_PeriClockControl+0xd4>)
+ 8000266:	681b      	ldr	r3, [r3, #0]
+ 8000268:	f003 7300 	and.w	r3, r3, #33554432	@ 0x2000000
+ 800026c:	2b00      	cmp	r3, #0
+ 800026e:	d0f9      	beq.n	8000264 <USBD_PeriClockControl+0x9c>
+
+
+	//6. Disable HSI
+	temp_reg &= ~( 1 << RCC_CR_HSION );
+ 8000270:	687b      	ldr	r3, [r7, #4]
+ 8000272:	f023 0301 	bic.w	r3, r3, #1
+ 8000276:	607b      	str	r3, [r7, #4]
+	RCC->CR |= temp_reg;
+ 8000278:	4b08      	ldr	r3, [pc, #32]	@ (800029c <USBD_PeriClockControl+0xd4>)
+ 800027a:	681a      	ldr	r2, [r3, #0]
+ 800027c:	4907      	ldr	r1, [pc, #28]	@ (800029c <USBD_PeriClockControl+0xd4>)
+ 800027e:	687b      	ldr	r3, [r7, #4]
+ 8000280:	4313      	orrs	r3, r2
+ 8000282:	600b      	str	r3, [r1, #0]
+
+	//ENABLE USB_OTG_FS Clock in AHB2 Bus
+	USB_OTG_FS_PCLK_EN();
+ 8000284:	4b05      	ldr	r3, [pc, #20]	@ (800029c <USBD_PeriClockControl+0xd4>)
+ 8000286:	6b5b      	ldr	r3, [r3, #52]	@ 0x34
+ 8000288:	4a04      	ldr	r2, [pc, #16]	@ (800029c <USBD_PeriClockControl+0xd4>)
+ 800028a:	f043 0380 	orr.w	r3, r3, #128	@ 0x80
+ 800028e:	6353      	str	r3, [r2, #52]	@ 0x34
+
+}
+ 8000290:	bf00      	nop
+ 8000292:	370c      	adds	r7, #12
+ 8000294:	46bd      	mov	sp, r7
+ 8000296:	bc80      	pop	{r7}
+ 8000298:	4770      	bx	lr
+ 800029a:	bf00      	nop
+ 800029c:	40023800 	.word	0x40023800
+
+080002a0 <USBD_Init>:
+
+
+void USBD_Init(void) {
+ 80002a0:	b480      	push	{r7}
+ 80002a2:	b083      	sub	sp, #12
+ 80002a4:	af00      	add	r7, sp, #0
+	uint32_t temp_reg;
+
+	//1. CORE INITIALIZATION
+
+	//GINTSTS_CMOD
+	if(!(USB_OTG_FS_GCSR->GINTSTS & ( 1 << USB_GINTSTS_CMOD ))) {
+ 80002a6:	f04f 43a0 	mov.w	r3, #1342177280	@ 0x50000000
+ 80002aa:	695b      	ldr	r3, [r3, #20]
+		//device mode
+	}
+
+	temp_reg = 0;
+ 80002ac:	2300      	movs	r3, #0
+ 80002ae:	607b      	str	r3, [r7, #4]
+	//Initialize GAHBCFG register
+	temp_reg |= ( 1 << USB_GAHBCFG_GINTMSK );
+ 80002b0:	687b      	ldr	r3, [r7, #4]
+ 80002b2:	f043 0301 	orr.w	r3, r3, #1
+ 80002b6:	607b      	str	r3, [r7, #4]
+	temp_reg &= ~( 1 << USB_GAHBCFG_TXFELVL);
+ 80002b8:	687b      	ldr	r3, [r7, #4]
+ 80002ba:	f023 0380 	bic.w	r3, r3, #128	@ 0x80
+ 80002be:	607b      	str	r3, [r7, #4]
+
+	USB_OTG_FS_GCSR->GAHBCFG = temp_reg;
+ 80002c0:	f04f 42a0 	mov.w	r2, #1342177280	@ 0x50000000
+ 80002c4:	687b      	ldr	r3, [r7, #4]
+ 80002c6:	6093      	str	r3, [r2, #8]
+
+
+	temp_reg = 0x00001440;
+ 80002c8:	f44f 53a2 	mov.w	r3, #5184	@ 0x1440
+ 80002cc:	607b      	str	r3, [r7, #4]
+	//Initialize GUSBCFG register
+	temp_reg &= ~( 1 << USB_GUSBCFG_HNPCAP );	//HNP capable bit
+ 80002ce:	687b      	ldr	r3, [r7, #4]
+ 80002d0:	f423 7300 	bic.w	r3, r3, #512	@ 0x200
+ 80002d4:	607b      	str	r3, [r7, #4]
+	temp_reg |= ( 1 << USB_GUSBCFG_SRPCAP );	//SRP capable bit
+ 80002d6:	687b      	ldr	r3, [r7, #4]
+ 80002d8:	f443 7380 	orr.w	r3, r3, #256	@ 0x100
+ 80002dc:	607b      	str	r3, [r7, #4]
+	//temp_reg |= ( val << USB_GUSBCFG_TOCAL );	//FS timeout calibration
+	//temp_reg |= ( val << USB_GUSBCFG_TRDT );	//USB turnaround time
+
+	USB_OTG_FS_GCSR->GUSBCFG = temp_reg;
+ 80002de:	f04f 42a0 	mov.w	r2, #1342177280	@ 0x50000000
+ 80002e2:	687b      	ldr	r3, [r7, #4]
+ 80002e4:	60d3      	str	r3, [r2, #12]
+
+
+	temp_reg = 0;
+ 80002e6:	2300      	movs	r3, #0
+ 80002e8:	607b      	str	r3, [r7, #4]
+	//Initialize GINTMSK register
+	temp_reg |= ( 1 << USB_GINTMSK_OTGINT );	//OTG interrupt mask
+ 80002ea:	687b      	ldr	r3, [r7, #4]
+ 80002ec:	f043 0304 	orr.w	r3, r3, #4
+ 80002f0:	607b      	str	r3, [r7, #4]
+	temp_reg |= ( 1 << USB_GINTMSK_MMISM );		//Mode mismatch interrupt mask
+ 80002f2:	687b      	ldr	r3, [r7, #4]
+ 80002f4:	f043 0302 	orr.w	r3, r3, #2
+ 80002f8:	607b      	str	r3, [r7, #4]
+
+	USB_OTG_FS_GCSR->GINTMSK = temp_reg;
+ 80002fa:	f04f 42a0 	mov.w	r2, #1342177280	@ 0x50000000
+ 80002fe:	687b      	ldr	r3, [r7, #4]
+ 8000300:	6193      	str	r3, [r2, #24]
+
+
+	//2. DEVICE MODE INITIALIZATION
+
+	temp_reg = 0x02200000;		//reset value
+ 8000302:	f04f 7308 	mov.w	r3, #35651584	@ 0x2200000
+ 8000306:	607b      	str	r3, [r7, #4]
+	//Initialize DCFG register
+	temp_reg |= ( 3 << USB_DCFG_DSPD );		//Device speed: full speed
+ 8000308:	687b      	ldr	r3, [r7, #4]
+ 800030a:	f043 0306 	orr.w	r3, r3, #6
+ 800030e:	607b      	str	r3, [r7, #4]
+	temp_reg &= ~( 1 << USB_DCFG_NZLSOHSK );	//Non-zero-length status OUT handshake
+ 8000310:	687b      	ldr	r3, [r7, #4]
+ 8000312:	f023 0304 	bic.w	r3, r3, #4
+ 8000316:	607b      	str	r3, [r7, #4]
+	USB_OTG_FS_DCSR->DCFG = temp_reg;
+ 8000318:	4a14      	ldr	r2, [pc, #80]	@ (800036c <USBD_Init+0xcc>)
+ 800031a:	687b      	ldr	r3, [r7, #4]
+ 800031c:	6013      	str	r3, [r2, #0]
+
+
+	temp_reg = 0;
+ 800031e:	2300      	movs	r3, #0
+ 8000320:	607b      	str	r3, [r7, #4]
+	Bit 13 ENUMDNEM: Enumeration done mask
+	Bit 10 ESUSPM: Early suspend mask
+	Bit 11 USBSUSPM: USB suspend mask
+	Bit 3 SOFM: Start of frame mask
+	*/
+	temp_reg |= ( 1 <<  ( USB_GINTMSK_USBRST | USB_GINTMSK_ENUMDNEM | \
+ 8000322:	687b      	ldr	r3, [r7, #4]
+ 8000324:	f443 4300 	orr.w	r3, r3, #32768	@ 0x8000
+ 8000328:	607b      	str	r3, [r7, #4]
+						  USB_GINTMSK_ESUSPM | USB_GINTMSK_USBSUSPM | \
+						  USB_GINTMSK_SOFM ) );
+
+	USB_OTG_FS_GCSR->GINTMSK |= temp_reg;
+ 800032a:	f04f 43a0 	mov.w	r3, #1342177280	@ 0x50000000
+ 800032e:	699a      	ldr	r2, [r3, #24]
+ 8000330:	f04f 41a0 	mov.w	r1, #1342177280	@ 0x50000000
+ 8000334:	687b      	ldr	r3, [r7, #4]
+ 8000336:	4313      	orrs	r3, r2
+ 8000338:	618b      	str	r3, [r1, #24]
+
+	//Bit 19 VBUSBSEN: Enable the VBUS sensing “B” device
+	/* Program the VBUSBSEN bit in the OTG_FS_GCCFG register to enable VBUS sensing
+	 * in “B” device mode and supply the 5 volts across the pull-up resistor on the DP line.
+	 */
+	while(!(USB_OTG_FS_GCSR->GINTSTS & ( 1 << USB_GINTSTS_USBRST )) );
+ 800033a:	bf00      	nop
+ 800033c:	f04f 43a0 	mov.w	r3, #1342177280	@ 0x50000000
+ 8000340:	695b      	ldr	r3, [r3, #20]
+ 8000342:	f403 5380 	and.w	r3, r3, #4096	@ 0x1000
+ 8000346:	2b00      	cmp	r3, #0
+ 8000348:	d0f8      	beq.n	800033c <USBD_Init+0x9c>
+
+	/* Wait for the USBRST interrupt in OTG_FS_GINTSTS. It indicates that a reset has been
+	 * detected on the USB that lasts for about 10 ms on receiving this interrupt.
+	 */
+	while(!(USB_OTG_FS_GCSR->GINTSTS & ( 1 << USB_GINTSTS_ENUMDNE )) );
+ 800034a:	bf00      	nop
+ 800034c:	f04f 43a0 	mov.w	r3, #1342177280	@ 0x50000000
+ 8000350:	695b      	ldr	r3, [r3, #20]
+ 8000352:	f403 5300 	and.w	r3, r3, #8192	@ 0x2000
+ 8000356:	2b00      	cmp	r3, #0
+ 8000358:	d0f8      	beq.n	800034c <USBD_Init+0xac>
+	 * the end of reset on the USB. On receiving this interrupt, the application must
+	 * read the OTG_FS_DSTS register to determine the enumeration speed and perform the
+	 * steps listed in Endpoint initialization on enumeration completion on page 1353.
+	 */
+	uint32_t dummy_read;
+	dummy_read = USB_OTG_FS_DCSR->DSTS;
+ 800035a:	4b04      	ldr	r3, [pc, #16]	@ (800036c <USBD_Init+0xcc>)
+ 800035c:	689b      	ldr	r3, [r3, #8]
+ 800035e:	603b      	str	r3, [r7, #0]
+
+	/* At this point, the device is ready to accept SOF packets and perform control
+	 * transfers on control endpoint 0.
+	 */
+
+}
+ 8000360:	bf00      	nop
+ 8000362:	370c      	adds	r7, #12
+ 8000364:	46bd      	mov	sp, r7
+ 8000366:	bc80      	pop	{r7}
+ 8000368:	4770      	bx	lr
+ 800036a:	bf00      	nop
+ 800036c:	50000800 	.word	0x50000800
+
+08000370 <main>:
+
+#include "stm32f407xx.h"
+#include "stm32f407xx_usb_driver.h"
+
+int main(void)
+{
+ 8000370:	b580      	push	{r7, lr}
+ 8000372:	af00      	add	r7, sp, #0
+
+
+	USBD_PeriClockControl();
+ 8000374:	f7ff ff28 	bl	80001c8 <USBD_PeriClockControl>
+	USBD_Init();
+ 8000378:	f7ff ff92 	bl	80002a0 <USBD_Init>
+
+
+    /* Loop forever */
+	for(;;);
+ 800037c:	bf00      	nop
+ 800037e:	e7fd      	b.n	800037c <main+0xc>
+
+08000380 <OTG_FS_IRQHandler>:
+}
+
+
+void OTG_FS_IRQHandler(void) {
+ 8000380:	b480      	push	{r7}
+ 8000382:	af00      	add	r7, sp, #0
+
+}
+ 8000384:	bf00      	nop
+ 8000386:	46bd      	mov	sp, r7
+ 8000388:	bc80      	pop	{r7}
+ 800038a:	4770      	bx	lr
+
+0800038c <Reset_Handler>:
+
+  .section .text.Reset_Handler
+  .weak Reset_Handler
+  .type Reset_Handler, %function
+Reset_Handler:
+  ldr   r0, =_estack
+ 800038c:	480d      	ldr	r0, [pc, #52]	@ (80003c4 <LoopForever+0x2>)
+  mov   sp, r0          /* set stack pointer */
+ 800038e:	4685      	mov	sp, r0
+/* Call the clock system initialization function.*/
+  bl  SystemInit
+ 8000390:	f3af 8000 	nop.w
+
+/* Copy the data segment initializers from flash to SRAM */
+  ldr r0, =_sdata
+ 8000394:	480c      	ldr	r0, [pc, #48]	@ (80003c8 <LoopForever+0x6>)
+  ldr r1, =_edata
+ 8000396:	490d      	ldr	r1, [pc, #52]	@ (80003cc <LoopForever+0xa>)
+  ldr r2, =_sidata
+ 8000398:	4a0d      	ldr	r2, [pc, #52]	@ (80003d0 <LoopForever+0xe>)
+  movs r3, #0
+ 800039a:	2300      	movs	r3, #0
+  b LoopCopyDataInit
+ 800039c:	e002      	b.n	80003a4 <LoopCopyDataInit>
+
+0800039e <CopyDataInit>:
+
+CopyDataInit:
+  ldr r4, [r2, r3]
+ 800039e:	58d4      	ldr	r4, [r2, r3]
+  str r4, [r0, r3]
+ 80003a0:	50c4      	str	r4, [r0, r3]
+  adds r3, r3, #4
+ 80003a2:	3304      	adds	r3, #4
+
+080003a4 <LoopCopyDataInit>:
+
+LoopCopyDataInit:
+  adds r4, r0, r3
+ 80003a4:	18c4      	adds	r4, r0, r3
+  cmp r4, r1
+ 80003a6:	428c      	cmp	r4, r1
+  bcc CopyDataInit
+ 80003a8:	d3f9      	bcc.n	800039e <CopyDataInit>
+
+/* Zero fill the bss segment. */
+  ldr r2, =_sbss
+ 80003aa:	4a0a      	ldr	r2, [pc, #40]	@ (80003d4 <LoopForever+0x12>)
+  ldr r4, =_ebss
+ 80003ac:	4c0a      	ldr	r4, [pc, #40]	@ (80003d8 <LoopForever+0x16>)
+  movs r3, #0
+ 80003ae:	2300      	movs	r3, #0
+  b LoopFillZerobss
+ 80003b0:	e001      	b.n	80003b6 <LoopFillZerobss>
+
+080003b2 <FillZerobss>:
+
+FillZerobss:
+  str  r3, [r2]
+ 80003b2:	6013      	str	r3, [r2, #0]
+  adds r2, r2, #4
+ 80003b4:	3204      	adds	r2, #4
+
+080003b6 <LoopFillZerobss>:
+
+LoopFillZerobss:
+  cmp r2, r4
+ 80003b6:	42a2      	cmp	r2, r4
+  bcc FillZerobss
+ 80003b8:	d3fb      	bcc.n	80003b2 <FillZerobss>
+
+/* Call static constructors */
+  bl __libc_init_array
+ 80003ba:	f000 f811 	bl	80003e0 <__libc_init_array>
+/* Call the application's entry point.*/
+  bl main
+ 80003be:	f7ff ffd7 	bl	8000370 <main>
+
+080003c2 <LoopForever>:
+
+LoopForever:
+  b LoopForever
+ 80003c2:	e7fe      	b.n	80003c2 <LoopForever>
+  ldr   r0, =_estack
+ 80003c4:	20020000 	.word	0x20020000
+  ldr r0, =_sdata
+ 80003c8:	20000000 	.word	0x20000000
+  ldr r1, =_edata
+ 80003cc:	20000000 	.word	0x20000000
+  ldr r2, =_sidata
+ 80003d0:	08000448 	.word	0x08000448
+  ldr r2, =_sbss
+ 80003d4:	20000000 	.word	0x20000000
+  ldr r4, =_ebss
+ 80003d8:	2000001c 	.word	0x2000001c
+
+080003dc <ADC_IRQHandler>:
+ * @retval : None
+*/
+  .section .text.Default_Handler,"ax",%progbits
+Default_Handler:
+Infinite_Loop:
+  b Infinite_Loop
+ 80003dc:	e7fe      	b.n	80003dc <ADC_IRQHandler>
+	...
+
+080003e0 <__libc_init_array>:
+ 80003e0:	b570      	push	{r4, r5, r6, lr}
+ 80003e2:	4d0d      	ldr	r5, [pc, #52]	@ (8000418 <__libc_init_array+0x38>)
+ 80003e4:	4c0d      	ldr	r4, [pc, #52]	@ (800041c <__libc_init_array+0x3c>)
+ 80003e6:	1b64      	subs	r4, r4, r5
+ 80003e8:	10a4      	asrs	r4, r4, #2
+ 80003ea:	2600      	movs	r6, #0
+ 80003ec:	42a6      	cmp	r6, r4
+ 80003ee:	d109      	bne.n	8000404 <__libc_init_array+0x24>
+ 80003f0:	4d0b      	ldr	r5, [pc, #44]	@ (8000420 <__libc_init_array+0x40>)
+ 80003f2:	4c0c      	ldr	r4, [pc, #48]	@ (8000424 <__libc_init_array+0x44>)
+ 80003f4:	f000 f818 	bl	8000428 <_init>
+ 80003f8:	1b64      	subs	r4, r4, r5
+ 80003fa:	10a4      	asrs	r4, r4, #2
+ 80003fc:	2600      	movs	r6, #0
+ 80003fe:	42a6      	cmp	r6, r4
+ 8000400:	d105      	bne.n	800040e <__libc_init_array+0x2e>
+ 8000402:	bd70      	pop	{r4, r5, r6, pc}
+ 8000404:	f855 3b04 	ldr.w	r3, [r5], #4
+ 8000408:	4798      	blx	r3
+ 800040a:	3601      	adds	r6, #1
+ 800040c:	e7ee      	b.n	80003ec <__libc_init_array+0xc>
+ 800040e:	f855 3b04 	ldr.w	r3, [r5], #4
+ 8000412:	4798      	blx	r3
+ 8000414:	3601      	adds	r6, #1
+ 8000416:	e7f2      	b.n	80003fe <__libc_init_array+0x1e>
+ 8000418:	08000440 	.word	0x08000440
+ 800041c:	08000440 	.word	0x08000440
+ 8000420:	08000440 	.word	0x08000440
+ 8000424:	08000444 	.word	0x08000444
+
+08000428 <_init>:
+ 8000428:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 800042a:	bf00      	nop
+ 800042c:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 800042e:	bc08      	pop	{r3}
+ 8000430:	469e      	mov	lr, r3
+ 8000432:	4770      	bx	lr
+
+08000434 <_fini>:
+ 8000434:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8000436:	bf00      	nop
+ 8000438:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 800043a:	bc08      	pop	{r3}
+ 800043c:	469e      	mov	lr, r3
+ 800043e:	4770      	bx	lr

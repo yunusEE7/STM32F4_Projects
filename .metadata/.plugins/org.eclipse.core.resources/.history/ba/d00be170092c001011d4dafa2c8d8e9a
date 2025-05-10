@@ -1,0 +1,97 @@
+/*
+ * stm32f407xx_usb_driver.c
+ *
+ *  Created on: May 5, 2025
+ *      Author: yunus
+ */
+
+
+#include "stm32f407xx_usb_driver.h"
+
+void USBD_Init(void) {
+
+	uint32_t temp_reg;
+
+	//1. CORE INITIALIZATION
+
+	//GINTSTS_CMOD
+	if(!(USB_OTG_FS_GCSR->GINTSTS & ( 1 << USB_GINTSTS_CMOD ))) {
+		//device mode
+	}
+
+	temp_reg = 0;
+	//Initialize GAHBCFG register
+	temp_reg |= ( 1 << USB_GAHBCFG_GINTMSK );
+	temp_reg &= ~( 1 << USB_GAHBCFG_TXFELVL);
+
+	USB_OTG_FS_GCSR->GAHBCFG = temp_reg;
+
+
+	temp_reg = 0x00001440;
+	//Initialize GUSBCFG register
+	temp_reg &= ~( 1 << USB_GUSBCFG_HNPCAP );	//HNP capable bit
+	temp_reg |= ( 1 << USB_GUSBCFG_SRPCAP );	//SRP capable bit
+	//temp_reg |= ( val << USB_GUSBCFG_TOCAL );	//FS timeout calibration
+	//temp_reg |= ( val << USB_GUSBCFG_TRDT );	//USB turnaround time
+
+	USB_OTG_FS_GCSR->GUSBCFG = temp_reg;
+
+
+	temp_reg = 0;
+	//Initialize GINTMSK register
+	temp_reg |= ( 1 << USB_GINTMSK_OTGINT );	//OTG interrupt mask
+	temp_reg |= ( 1 << USB_GINTMSK_MMISM );		//Mode mismatch interrupt mask
+
+	USB_OTG_FS_GCSR->GINTMSK = temp_reg;
+
+	//2. DEVICE MODE INITIALIZATION
+
+	temp_reg = 0x02200000;		//reset value
+	//Initialize DCFG register
+	temp_reg |= ( 11 << USB_DCFG_DSPD );		//Device speed: full speed
+	temp_reg &= ~( 1 << USB_DCFG_NZLSOHSK );	//Non-zero-length status OUT handshake
+	USB_OTG_FS_DCSR->DCFG = temp_reg;
+
+
+	temp_reg = 0;
+	//Initialize GINTMSK register for device mode
+	/*
+	Bit 12 USBRST: USB reset mask
+	Bit 13 ENUMDNEM: Enumeration done mask
+	Bit 10 ESUSPM: Early suspend mask
+	Bit 11 USBSUSPM: USB suspend mask
+	Bit 3 SOFM: Start of frame mask
+	*/
+	temp_reg |= ( 1 <<  ( USB_GINTMSK_USBRST | USB_GINTMSK_ENUMDNEM | \
+						  USB_GINTMSK_ESUSPM | USB_GINTMSK_USBSUSPM | \
+						  USB_GINTMSK_SOFM ) );
+
+	USB_OTG_FS_GCSR->GINTMSK |= temp_reg;
+
+	temp_reg = 0;
+
+
+	//Bit 19 VBUSBSEN: Enable the VBUS sensing “B” device
+	/* Program the VBUSBSEN bit in the OTG_FS_GCCFG register to enable VBUS sensing
+	 * in “B” device mode and supply the 5 volts across the pull-up resistor on the DP line.
+	 */
+	while(!(USB_OTG_FS_GCSR->GINTSTS & ( 1 << USB_GINTSTS_USBRST )) );
+
+	/* Wait for the USBRST interrupt in OTG_FS_GINTSTS. It indicates that a reset has been
+	 * detected on the USB that lasts for about 10 ms on receiving this interrupt.
+	 */
+	while(!(USB_OTG_FS_GCSR->GINTSTS & ( 1 << USB_GINTSTS_ENUMDNE )) );
+
+	/* Wait for the ENUMDNE interrupt in OTG_FS_GINTSTS. This interrupt indicates
+	 * the end of reset on the USB. On receiving this interrupt, the application must
+	 * read the OTG_FS_DSTS register to determine the enumeration speed and perform the
+	 * steps listed in Endpoint initialization on enumeration completion on page 1353.
+	 */
+	uint32_t dummy_read;
+	dummy_read = USB_OTG_FS_DCSR->DSTS;
+
+	/* At this point, the device is ready to accept SOF packets and perform control transfers on
+	control endpoint 0. */
+}
+
+

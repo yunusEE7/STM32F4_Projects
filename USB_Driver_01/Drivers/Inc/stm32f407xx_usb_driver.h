@@ -1,0 +1,252 @@
+/*
+ * stm32f407xx_usb_driver.h
+ *
+ *  Created on: May 5, 2025
+ *      Author: yunus
+ */
+
+#ifndef STM32F407XX_USB_DRIVER_H_
+#define STM32F407XX_USB_DRIVER_H_
+
+
+
+#include "stm32f407xx.h"
+
+
+/* AHB 1 */
+#define USB_OTG_HS_BASEADDR					0x40040000U
+/* AHB 2 */
+#define USB_OTG_FS_BASEADDR					0x50000000U
+
+
+/* USB OTG_FS control and status registers */
+
+/* 1. Core global registers */
+#define CORE_GLOBAL_CSR_BASEADDR			( ( USB_OTG_FS_BASEADDR ) + ( 0x0000U ) )
+
+/* 2. Host-mode registers */
+#define HOST_MODE_CSR_BASEADDR				( ( USB_OTG_FS_BASEADDR ) + ( 0x0400U ) )
+
+/* 3. Device global registers */
+#define DEVICE_MODE_CSR_BASEADDR			( ( USB_OTG_FS_BASEADDR ) + ( 0x0800U ) )
+
+/* 4. Power and clock gating */
+#define PCG_CSR_BASEADDR					( ( USB_OTG_FS_BASEADDR ) + ( 0x0E00U ) )
+
+/* Data FIFO (DFIFO) access registers */
+
+#define DFIFO_ENDPOINT0_CHANNEL0			( ( USB_OTG_FS_BASEADDR ) + ( 0x1000U ) )
+#define DFIFO_ENDPOINT1_CHANNEL1			( ( USB_OTG_FS_BASEADDR ) + ( 0x2000U ) )
+#define DFIFO_ENDPOINT2_CHANNEL2			( ( USB_OTG_FS_BASEADDR ) + ( 0x3000U ) )
+#define DFIFO_ENDPOINT3_CHANNEL3			( ( USB_OTG_FS_BASEADDR ) + ( 0x4000U ) )
+#define DFIFO_CHANNEL_4						( ( USB_OTG_FS_BASEADDR ) + ( 0x5000U ) )
+#define DFIFO_CHANNEL_5						( ( USB_OTG_FS_BASEADDR ) + ( 0x6000U ) )
+#define DFIFO_CHANNEL_6						( ( USB_OTG_FS_BASEADDR ) + ( 0x7000U ) )
+#define DFIFO_CHANNEL_7						( ( USB_OTG_FS_BASEADDR ) + ( 0x8000U ) )
+
+
+/*
+GOTGCTL					0x000
+GOTGINT					0x004
+GAHBCFG					0x008
+GUSBCFG					0x00C
+GRSTCTL					0x010
+GINTSTS					0x014
+GINTMSK					0x018
+GRXSTSR					0x01C
+GRXSTSP					0x020
+GRXFSIZ					0x024
+HNPTXFSIZ/DIEPTXF0		0x028
+HNPTXSTS				0x02C
+GCCFG					0x038
+CID						0x03C
+HPTXFSIZ				0x100
+DIEPTXFx				0x104 + 0x04 * (x - 1)		//x = 1,2,3
+ */
+
+__vo typedef struct {
+
+	uint32_t GOTGCTL;
+	uint32_t GOTGINT;
+	uint32_t GAHBCFG;
+	uint32_t GUSBCFG;
+	uint32_t GRSTCTL;
+	uint32_t GINTSTS;
+	uint32_t GINTMSK;
+	uint32_t GRXSTSR;
+	uint32_t GRXSTSP;
+	uint32_t GRXFSIZ;
+
+#ifdef USB_HOST_MODE
+	uint32_t HNPTXFSIZ;
+#else
+	uint32_t DIEPTXF0;
+#endif
+
+	uint32_t HNPTXSTS;
+	uint32_t reserved0[2];
+	uint32_t GCCFG;
+	uint32_t CID;
+	uint32_t reserved1[30];
+	uint32_t HPTXFSIZ;
+	uint32_t DIEPTXF1;
+	uint32_t DIEPTXF2;
+	uint32_t DIEPTXF3;
+
+}USB_OTG_FS_GCSR_RegDef_t;
+
+
+/*
+DCFG				0x0800
+DCTL				0x0804
+DSTS				0x0808
+DIEPMSK				0x0810
+DOEPMSK				0x0814
+DAINT				0x0818
+DAINTMSK			0x081C
+DVBUSDIS			0x0828
+DVBUSPULSE			0x082C
+DIEPEMPMSK			0x0834
+
+DIEPCTL0			0x0900
+DIEPCTLx			0x0900 + 0x20 * x	//x = 1,2,3
+
+DIEPINTx			0x0908 + 0x20 * x   //x = 0,1,2,3
+
+DIEPTSIZ0			0x0910
+DIEPTSIZx			0x0910 + 0x20 * x	//x = 1,2,3
+
+DTXFSTSx			0x918 + 0x20 * x	//x = 0,1,2,3
+
+DOEPCTL0			0x0B00
+DOEPCTLx			0x0B00 + 0x20 * x	//x = 1,2,3
+
+DOEPINTx			0x0B08 + 0x20 * x	//x = 0,1,2,3
+
+DOEPTSIZ0			0x0B10
+DOEPTSIZx			0x0B10 + 0x20 * x	//x = 1,2,3
+ */
+
+__vo typedef struct {
+	uint32_t DCFG;
+	uint32_t DCTL;
+	uint32_t DSTS;
+	uint32_t reserved0;
+	uint32_t DIEPMSK;
+	uint32_t DOEPMSK;
+	uint32_t DAINT;
+	uint32_t DAINTMSK;
+	uint32_t reserved1[2];
+	uint32_t DVBUSDIS;
+	uint32_t DVBUSPULSE;
+	uint32_t reserved2;
+	uint32_t DIEPEMPMSK;
+	uint32_t reserved3[50];
+	uint32_t DIEPCTL0;
+	uint32_t reserved4;
+	uint32_t DIEPINT0;
+	uint32_t reserved5;
+	uint32_t DIEPTSIZ0;
+	uint32_t reserved6;
+	uint32_t DTXFSTS0;
+	uint32_t reserved7;
+	uint32_t DIEPCTL1;
+	uint32_t reserved8;
+	uint32_t DIEPINT1;
+	uint32_t reserved9;
+	uint32_t DIEPTSIZ1;
+	uint32_t reserved10;
+	uint32_t DTXFSTS1;
+	uint32_t reserved11;
+	uint32_t DIEPCTL2;
+	uint32_t reserved12;
+	uint32_t DIEPINT2;
+	uint32_t reserved13;
+	uint32_t DIEPTSIZ2;
+	uint32_t reserved14;
+	uint32_t DTXFSTS2;
+	uint32_t reserved15;
+	uint32_t DIEPCTL3;
+	uint32_t reserved16;
+	uint32_t DIEPINT3;
+	uint32_t reserved17;
+	uint32_t DIEPTSIZ3;
+	uint32_t reserved18;
+	uint32_t DTXFSTS3;
+	uint32_t reserved19[61];
+	uint32_t DOEPCTL0;
+	uint32_t reserved20;
+	uint32_t DOEPINT0;
+	uint32_t reserved21;
+	uint32_t DOEPTSIZ0;
+	uint32_t reserved22;
+	uint32_t DOEPCTL1;
+	uint32_t reserved23;
+	uint32_t DOEPINT1;
+	uint32_t reserved24;
+	uint32_t DOEPTSIZ1;
+	uint32_t reserved25[3];
+	uint32_t DOEPCTL2;
+	uint32_t reserved26;
+	uint32_t DOEPINT2;
+	uint32_t reserved27;
+	uint32_t DOEPTSIZ2;
+	uint32_t reserved28[3];
+	uint32_t DOEPCTL3;
+	uint32_t reserved29;
+	uint32_t DOEPINT3;
+	uint32_t reserved30;
+	uint32_t DOEPTSIZ3;
+}USB_OTG_FS_DCSR_RegDef_t;
+
+
+__vo typedef struct {
+	uint32_t PCGCCTL;
+	uint32_t reserved;
+}USB_FS_PCGR_RegDef_t;
+
+
+#define USB_OTG_FS_GCSR						((USB_OTG_FS_GCSR_RegDef_t*)CORE_GLOBAL_CSR_BASEADDR)
+#define USB_OTG_FS_DCSR						((USB_OTG_FS_DCSR_RegDef_t*)DEVICE_MODE_CSR_BASEADDR)
+#define USB_FS_PCGR							((USB_FS_PCGR_RegDef_t*)PCG_CSR_BASEADDR)
+
+
+/* Bit position definitions : GLOBAL CONFIG REGISTERS */
+#define USB_GINTSTS_CMOD					0
+#define USB_GINTSTS_USBRST					12
+#define USB_GINTSTS_ENUMDNE					13
+
+#define USB_GAHBCFG_GINTMSK					0
+#define USB_GAHBCFG_TXFELVL					7
+
+#define USB_GUSBCFG_SRPCAP					8
+#define USB_GUSBCFG_HNPCAP					9
+
+#define USB_GINTMSK_MMISM					1
+#define USB_GINTMSK_OTGINT					2
+#define USB_GINTMSK_SOFM					3
+#define USB_GINTMSK_ESUSPM					10
+#define USB_GINTMSK_USBSUSPM				11
+#define USB_GINTMSK_USBRST					12
+#define USB_GINTMSK_ENUMDNEM				13
+
+/* Bit position definitions : DEVICE CONFIG REGISTERS */
+#define USB_DCFG_DSPD						1
+#define USB_DCFG_NZLSOHSK					2
+
+
+/* Clock enable macro for USB_OTG_FS peripheral */
+#define USB_OTG_FS_PCLK_EN()				( RCC->AHB2ENR |= ( 1 << 7 ) )
+
+/* Clock disable macro for USB_OTG_FS peripheral */
+#define USB_OTG_FS_PCLK_DI()				( RCC->AHB2ENR &= ~( 1 << 7 ) )
+
+/* USB_OTG_FS peripheral reset macro */
+#define USB_OTG_FS_REG_RESET()				do { ( RCC->AHB2RSTR |= ( 1 << 7) ); ( RCC->AHB2RSTR &= ~( 1 << 7) ); }while(0)
+
+
+void USBD_PeriClockControl(void);
+void USBD_Init(void);
+
+
+#endif /* STM32F407XX_USB_DRIVER_H_ */
